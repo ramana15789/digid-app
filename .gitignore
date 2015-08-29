@@ -25,3 +25,12 @@ proguard/
 
 # Log Files
 *.log
+
+	.idea/
+	WalkInEasy.iml
+	app/.gitignore
+	gradle.properties
+	gradle/
+	gradlew
+	gradlew.bat
+	libraries/
