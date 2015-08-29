@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WalkinEasy</string>
+
+    <string name="hello_world">To be or Not to be</string>
+    <string name="action_settings">Settings</string>
+    <string name="retro_error">Network Error</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="google_map_key">AIzaSyBknjXbeb0VKKEP34ViNXJsIJOs5M7ctJE</string>
+    <string name="pref_field1">pref_field1</string>
+    <string name="pref_field2">pref_field2</string>
+    <string name="pref_field3">pref_field3</string>
+    <string name="pref_field4">pref_field4</string>
+</resources>
