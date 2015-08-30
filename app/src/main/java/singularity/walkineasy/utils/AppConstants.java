@@ -25,9 +25,8 @@ import singularity.walkineasy.http.HttpConstants;
 
 
 /**
- * Class that holds the App Constants
- *
- * @author Vinay S Shenoy
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
  */
 public class AppConstants {
 

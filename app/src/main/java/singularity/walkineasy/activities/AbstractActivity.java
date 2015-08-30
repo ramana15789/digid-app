@@ -60,8 +60,6 @@ public abstract class AbstractActivity extends AppCompatActivity implements Call
         super.onCreate(savedInstanceState);
         mAppName = getString(R.string.app_name);
         //setTitle(getTitle());
-
-        mBus = ((MyApplication) getApplication()).getBus();
         mApiEndPoints = ((MyApplication) getApplication()).getApiEndPoint();
     }
 
@@ -84,14 +82,6 @@ public abstract class AbstractActivity extends AppCompatActivity implements Call
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mBus.register(this);
-
-    }
-
-
     public static boolean mainActivityIsOpen() {
         return mMainActivityIsOpen;
     }
@@ -99,13 +89,6 @@ public abstract class AbstractActivity extends AppCompatActivity implements Call
 
     public static void setMainActivityIsOpen(boolean mainActivityIsOpen) {
         mMainActivityIsOpen = mainActivityIsOpen;
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mBus.unregister(this);
     }
 
 

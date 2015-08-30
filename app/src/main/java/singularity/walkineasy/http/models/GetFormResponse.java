@@ -10,12 +10,12 @@ import java.util.ArrayList;
  */
 public class GetFormResponse {
 
-    @SerializedName("form_title")
+    @SerializedName("name")
     public String title;
 
-    @SerializedName("table_title")
+    @SerializedName("id")
     public String tableTitle;
 
-    @SerializedName("form_content")
+    @SerializedName("fields")
     public ArrayList<FormDetails> formElements;
 }

@@ -1,20 +1,18 @@
 package singularity.walkineasy.http;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 
-import java.util.ArrayList;
-
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import singularity.walkineasy.data.DBInterface;
 import singularity.walkineasy.http.HttpConstants.RequestId;
 import singularity.walkineasy.http.models.GetFormResponse;
-import singularity.walkineasy.http.models.MyAdvisorsResponseModel;
 
-
-public class RetroCallback<ConvertedData> implements RetroCallbackInterface<ConvertedData>, DBInterface.AsyncDbQueryCallback {
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
+public class RetroCallback<ConvertedData> implements RetroCallbackInterface<ConvertedData>{
 
 
     public static final String TAG = "RetroCallback";
@@ -83,13 +81,7 @@ public class RetroCallback<ConvertedData> implements RetroCallbackInterface<Conv
                 mRetroResponseListener.success((GetFormResponse) model, mRequestId);
                 break;
 
-            case RequestId.GET_MY_ADVISORS:
-                Log.v(TAG, "Here");
-                ArrayList<MyAdvisorsResponseModel> advisors = (ArrayList<MyAdvisorsResponseModel>) model;
-                for (MyAdvisorsResponseModel a : advisors) {
-                    Log.v(TAG, a.toString());
-                }
-                break;
+
         }
     }
 
@@ -111,57 +103,6 @@ public class RetroCallback<ConvertedData> implements RetroCallbackInterface<Conv
     //*************************************************************************
     // Data related
     //*************************************************************************
-
-    /**
-     * Method called when an asynchronous insert operation is done
-     *
-     * @param taskId      The token passed into the async mthod
-     * @param cookie      Any extra object passed into the query.
-     * @param insertRowId The inserted row id, or -1 if it failed
-     */
-    @Override
-    public void onInsertComplete(int taskId, Object cookie, long insertRowId) {
-
-    }
-
-
-    /**
-     * Method called when an asynchronous delete operation is done
-     *
-     * @param taskId      The token passed into the async method
-     * @param cookie      Any extra object passed into the query.
-     * @param deleteCount The number of rows deleted
-     */
-    @Override
-    public void onDeleteComplete(int taskId, Object cookie, int deleteCount) {
-
-    }
-
-
-    /**
-     * Method called when an asynchronous update operation is done
-     *
-     * @param taskId      The token passed into the async method
-     * @param cookie      Any extra object passed into the query.
-     * @param updateCount The number of rows updated
-     */
-    @Override
-    public void onUpdateComplete(int taskId, Object cookie, int updateCount) {
-
-    }
-
-
-    /**
-     * Method called when an asyncronous query operation is done
-     *
-     * @param taskId The token passed into the async method
-     * @param cookie Any extra object passed into the query.
-     * @param cursor The {@link Cursor} read from the database
-     */
-    @Override
-    public void onQueryComplete(int taskId, Object cookie, Cursor cursor) {
-
-    }
 
 
     //*************************************************************************

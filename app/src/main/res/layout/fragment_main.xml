@@ -1,29 +1,112 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="?actionBarSize"
-                tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?actionBarSize"
+    android:background="@android:color/white"
+    tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/id_text"
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
-    <Button
-        android:id="@+id/id_button"
+        android:id="@+id/id_loading_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_medium"
-        android:layout_below="@+id/id_text"
-        android:text="Show me houses"/>
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="Near You"
+        android:textColor="@color/accent"
+        android:textSize="20sp" />
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/id1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/id_button"
-        android:id="@+id/imgview"/>
+        android:layout_below="@id/id_loading_form"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:text="Flipkart Office"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/id2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id1"
+        android:layout_marginLeft="16dp"
+        android:text="Visitor Registration"
+        android:textColor="@color/secondary_text"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/id3"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/id2"
+        android:layout_margin="8dp"
+        android:background="@color/secondary_text" />
+
+
+    <TextView
+        android:id="@+id/id4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id3"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:text="Cisco Office"
+        android:textColor="@color/primary_text"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/id5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/id4"
+        android:layout_marginLeft="16dp"
+        android:text="WalkIn Interview"
+        android:textColor="@color/secondary_text"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/id_mid"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@color/secondary_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Manual"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="@color/secondary_text" />
+
+    </LinearLayout>
+
+
+    <ImageButton
+        android:id="@+id/qr_button"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_below="@id/id_mid"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/qr_icon" />
 
 </RelativeLayout>

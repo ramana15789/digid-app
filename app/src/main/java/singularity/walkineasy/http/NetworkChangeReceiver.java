@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
     private NetworkInfo.State mState;
-    private NetworkInfo mNetworkInfo,mOtherNetworkInfo;
+    private NetworkInfo mNetworkInfo, mOtherNetworkInfo;
     private String mReason;
     private boolean mIsFailover;
 

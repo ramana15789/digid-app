@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dots="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/id_headerbar"
@@ -13,29 +14,64 @@
         <include layout="@layout/toolbar" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
-        <TextView
-            android:id="@+id/id_loading_form"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Loading the form "
-            android:textColor="@color/secondary_text"
-            android:textSize="20sp" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <pl.tajchert.sample.DotsTextView
-            android:id="@+id/id_loading_form_jumping_dots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            dots:autoplay="true"
-            dots:period="1000" />
+            <LinearLayout
+                android:id="@+id/id_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/id_loading_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
 
-</RelativeLayout>
+                    <TextView
+                        android:id="@+id/id_loading_form"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Loading the form "
+                        android:textColor="@color/accent"
+                        android:textSize="20sp" />
+
+                    <pl.tajchert.sample.DotsTextView
+                        android:id="@+id/id_loading_form_jumping_dots"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/accent"
+                        android:textSize="20sp"
+                        dots:autoplay="true"
+                        dots:period="1000" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/id_form_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/accent"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

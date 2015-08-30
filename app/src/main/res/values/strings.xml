@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">WalkinEasy</string>
+    <string name="app_name">DigId</string>
 
     <string name="hello_world">To be or Not to be</string>
     <string name="action_settings">Settings</string>
     <string name="retro_error">Network Error</string>
+    <string name="dialog_pick_date">Pick a Date</string>
 </resources>

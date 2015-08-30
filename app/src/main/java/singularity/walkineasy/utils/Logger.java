@@ -9,7 +9,10 @@ import java.util.Locale;
 
 import singularity.walkineasy.BuildConfig;
 
-
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
 public class Logger {
 
     public static final String DEFAULT_TAG = "Barter.Li";

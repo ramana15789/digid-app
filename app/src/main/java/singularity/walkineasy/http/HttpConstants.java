@@ -1,8 +1,10 @@
 package singularity.walkineasy.http;
 
-
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
 public class HttpConstants {
-
 
     public static final String HEADER_AUTHORIZATION_FORMAT = "Token token=\"%s\", email=\"%s\"";
     public static final String HEADER_AUTHORIZATION = "Authorization";

@@ -6,7 +6,10 @@ import singularity.walkineasy.R;
 import singularity.walkineasy.fragments.MainFragment;
 import singularity.walkineasy.utils.AppConstants;
 
-
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
 public class MainActivity extends AbstractActivity {
 
     private static final String TAG = "MainActivity";

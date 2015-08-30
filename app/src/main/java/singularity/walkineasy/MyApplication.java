@@ -1,25 +1,41 @@
 package singularity.walkineasy;
 
 import android.app.Application;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.provider.Settings.Secure;
+import android.support.v4.app.NotificationCompat;
 
 import com.squareup.otto.Bus;
+import com.tumblr.remember.Remember;
 
-import retrofit.RequestInterceptor;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Region;
+import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
+import org.altbeacon.beacon.startup.BootstrapNotifier;
+import org.altbeacon.beacon.startup.RegionBootstrap;
+
 import retrofit.RestAdapter;
+import singularity.walkineasy.activities.ShowFormsActivity;
 import singularity.walkineasy.http.ApiEndpoints;
-import singularity.walkineasy.http.HttpConstants;
 import singularity.walkineasy.utils.AppConstants.UserInfo;
+import singularity.walkineasy.utils.Logger;
 import singularity.walkineasy.utils.SharedPreferenceHelper;
 import singularity.walkineasy.utils.Utils;
 
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
+public class MyApplication extends Application implements BootstrapNotifier {
 
-public class MyApplication extends Application {
-
-    private static final String TAG = "BarterLiApplication";
+    private static final String TAG = "MyApplication";
 
     /**
      * Maintains a reference to the application context so that it can be
@@ -29,11 +45,9 @@ public class MyApplication extends Application {
 
     private ApiEndpoints mApiEndPoints;
 
-    /**
-     * Reference to the bus (OTTO By Square)
-     */
-    private Bus mBus;
-
+    private RegionBootstrap mRegionBootstrap;
+    private BackgroundPowerSaver mBackgroundPowerSaver;
+    private boolean mHaveDetectedBeaconsSinceBoot = false;
 
     /**
      * Gets a reference to the application context
@@ -43,7 +57,6 @@ public class MyApplication extends Application {
             return sStaticContext;
         }
 
-        //Should NEVER hapen
         throw new RuntimeException("No static context instance");
     }
 
@@ -52,22 +65,17 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        /*BeaconManager beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
+        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        beaconManager.setBackgroundBetweenScanPeriod(5000);
+
+        Region region = new Region("mRegionBootstrap", null, null, null);
+        mRegionBootstrap = new RegionBootstrap(this, region);
+        mBackgroundPowerSaver = new BackgroundPowerSaver(this); */
+
         sStaticContext = getApplicationContext();
-
-        mBus = new Bus();
-        mBus.register(this);
-
-        /*
-         * Saves the current app version into shared preferences so we can use
-         * it in a future update if necessary
-         */
-        saveCurrentAppVersionIntoPreferences();
-
-        // Picasso.with(this).setDebugging(true);
-        UserInfo.INSTANCE.setDeviceId(Secure.getString(this.getContentResolver(), Secure.ANDROID_ID));
-        readUserInfoFromSharedPref();
-        Utils.setupNetworkInfo(this);
         initApiServices();
+        Remember.init(getApplicationContext(), "singularity.walkineasy");
     }
 
 
@@ -76,7 +84,7 @@ public class MyApplication extends Application {
                 .setLogLevel(RestAdapter.LogLevel.FULL);
 
         mApiEndPoints = builder
-                .setEndpoint("http://192.168.10.106:8888")
+                .setEndpoint("https://fierce-tor-9053.herokuapp.com")
                 .build()
                 .create(ApiEndpoints.class);
     }
@@ -86,37 +94,54 @@ public class MyApplication extends Application {
         return mApiEndPoints;
     }
 
+    //*********************************************************************
+    // Beacon Related
+    //*********************************************************************
 
-    public Bus getBus() {
-        return mBus;
+    private void sendNotification(String name) {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setContentTitle("Idigid")
+                        .setContentText("Want to Checkin to " + name)
+                        .setSmallIcon(R.drawable.ic_launcher);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntent(new Intent(this, ShowFormsActivity.class));
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, builder.build());
     }
 
+    @Override
+    public void didEnterRegion(Region arg0) {
+        Logger.v(TAG, "Saw a region with id1=" + arg0.getId1() + " and id2 = " + arg0.getId2());
 
-    /**
-     * Save the current app version info into preferences. This is purely for
-     * future use where we might need to use these values on an app update
-     */
-    private void saveCurrentAppVersionIntoPreferences() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
-            SharedPreferenceHelper.set(R.string.pref_last_version_code, info.versionCode);
-            SharedPreferenceHelper.set(R.string.pref_last_version_name, info.versionName);
-        } catch (NameNotFoundException e) {
-            //Shouldn't happen
-        }
+        sendNotification(arg0.getUniqueId());
+
+       /* if (!mHaveDetectedBeaconsSinceBoot) {
+            mHaveDetectedBeaconsSinceBoot = true;
+        } else {
+
+        }*/
     }
 
+    @Override
+    public void didExitRegion(Region region) {
+        Logger.v(TAG, "I no longer see a beacon.");
 
-    /**
-     * Reads the previously fetched auth token from Shared Preferences and stores
-     * it in the Singleton for in memory access
-     */
-    private void readUserInfoFromSharedPref() {
-        UserInfo.INSTANCE.setAuthToken(SharedPreferenceHelper.getString(R.string.pref_auth_token));
-        UserInfo.INSTANCE.setId(SharedPreferenceHelper.getString(R.string.pref_user_id));
-        UserInfo.INSTANCE.setEmail(SharedPreferenceHelper.getString(R.string.pref_email));
-        UserInfo.INSTANCE.setProfilePicture(SharedPreferenceHelper.getString(R.string.pref_profile_image));
-        UserInfo.INSTANCE.setFirstName(SharedPreferenceHelper.getString(R.string.pref_first_name));
-        UserInfo.INSTANCE.setLastName(SharedPreferenceHelper.getString(R.string.pref_last_name));
+        /**
+         * TODO: Cancel a notification
+         */
     }
+
+    @Override
+    public void didDetermineStateForRegion(int state, Region region) {
+        Logger.v(TAG, "I have just switched from seeing/not seeing beacons: " + state);
+    }
+
+    //*********************************************************************
+    // End of class
+    //*********************************************************************
+
 }

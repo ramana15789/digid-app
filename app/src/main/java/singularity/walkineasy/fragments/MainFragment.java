@@ -13,16 +13,19 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import singularity.walkineasy.R;
 import singularity.walkineasy.activities.BarcodeScannerActivity;
 import singularity.walkineasy.activities.ShowFormsActivity;
 import singularity.walkineasy.http.ApiEndpoints;
-import singularity.walkineasy.http.HttpConstants.RequestId;
 import singularity.walkineasy.http.RetroCallback;
-import singularity.walkineasy.http.models.GetMyAdvisorsRequestModel;
 
-
-public class MainFragment extends AbstractFragment implements RetroCallback.RetroResponseListener, View.OnClickListener {
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
+public class MainFragment extends AbstractFragment implements RetroCallback.RetroResponseListener {
 
     private static final String TAG = "MainFragment";
 
@@ -38,15 +41,18 @@ public class MainFragment extends AbstractFragment implements RetroCallback.Retr
 
     private ApiEndpoints mApiEndPoints;
 
+    @OnClick(R.id.qr_button)
+    void startShowQRCodeScanActivity() {
+        startActivityForResult(new Intent(getActivity(), BarcodeScannerActivity.class), REQUEST_CODE_FOR_BARCODE_SCANNING);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        init(container, savedInstanceState, v, "WalkinEasy");
+        ButterKnife.bind(this, v);
+        init(container, savedInstanceState, v, "DigId");
         setHasOptionsMenu(true);
         mApiEndPoints = getApiService();
-        Button button = (Button) v.findViewById(R.id.id_button);
-        button.setOnClickListener(this);
         return v;
     }
 
@@ -65,7 +71,9 @@ public class MainFragment extends AbstractFragment implements RetroCallback.Retr
             Bundle bundle = data.getExtras();
             if (bundle != null && bundle.containsKey(BarcodeScannerActivity.INTENT_EXTRA_SCAN_RESULT)) {
                 Log.v(TAG, "Result= " + bundle.getString(BarcodeScannerActivity.INTENT_EXTRA_SCAN_RESULT));
-                startActivity(new Intent(getActivity(), ShowFormsActivity.class));
+                Intent intent = new Intent(getActivity(), ShowFormsActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -75,32 +83,10 @@ public class MainFragment extends AbstractFragment implements RetroCallback.Retr
     // View Related
     // *********************************************************************
 
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.id_button) {
-            startActivityForResult(new Intent(getActivity(), BarcodeScannerActivity.class), REQUEST_CODE_FOR_BARCODE_SCANNING);
-        }
-    }
 
     // *********************************************************************
     // HTTP Related
     // *********************************************************************
-
-    private void getForms() {
-        Log.v(TAG, "Firing off the request");
-        /*final Map<String, Integer> params = new HashMap<String, Integer>(1);
-        params.put("InvestorUserRegistrationId", 10057); */
-
-        GetMyAdvisorsRequestModel model = new GetMyAdvisorsRequestModel();
-        model.InvestorUserRegistrationId = 10057;
-
-        RetroCallback retroCallback;
-        retroCallback = new RetroCallback(this);
-        retroCallback.setRequestId(RequestId.GET_MY_ADVISORS);
-        retroCallbackList.add(retroCallback);
-        mApiEndPoints.getMyAdvisors(model, retroCallback);
-    }
-
 
     /**
      * Method callback when the success response is received

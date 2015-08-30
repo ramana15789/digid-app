@@ -33,7 +33,10 @@ import singularity.walkineasy.activities.AbstractActivity;
 import singularity.walkineasy.http.ApiEndpoints;
 import singularity.walkineasy.http.RetroCallback;
 
-
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
 public abstract class AbstractFragment extends Fragment implements Callback {
 
     private static final String TAG = "AbstractYeloFragment";
@@ -67,25 +70,9 @@ public abstract class AbstractFragment extends Fragment implements Callback {
     public void onAttach(Activity activity) {
 
         super.onAttach(activity);
-        mBus = ((MyApplication) getActivity().getApplication()).getBus();
         mApiEndPoints = ((MyApplication) getActivity().getApplication()).getApiEndPoint();
         mIsAttached = true;
 
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mBus.register(this);
-
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mBus.unregister(this);
     }
 
 

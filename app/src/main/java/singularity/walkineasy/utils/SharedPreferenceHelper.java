@@ -8,7 +8,10 @@ import android.util.Log;
 
 import singularity.walkineasy.MyApplication;
 
-
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
 public class SharedPreferenceHelper {
 
     private static final String TAG = "SharedPreferenceHelper";

@@ -8,6 +8,10 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/**
+ * @author Sharath Pandeshwar
+ * @since 29/08/15.
+ */
 public class BarcodeScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     private static final String TAG = "BarcodeScannerActivity";

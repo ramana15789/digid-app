@@ -10,31 +10,36 @@ import java.util.ArrayList;
  */
 public class FormDetails {
 
-    @SerializedName("type")
-    FormDetailType formDetailType;
+    @SerializedName("field_type")
+    public FormDetailType formDetailType;
 
-    @SerializedName("DBName")
-    String key;
+    @SerializedName("key")
+    public String key;
 
-    @SerializedName("Question")
-    String label;
+    @SerializedName("label")
+    public String label;
 
-    @SerializedName("Compulsory")
-    boolean compulsory;
+    @SerializedName("hint")
+    public String hint;
 
-    @SerializedName("Options")
-    ArrayList<String> options;
+    @SerializedName("is_mandatory")
+    public boolean compulsory;
+
+    @SerializedName("options")
+    public ArrayList<String> options;
 
     public enum FormDetailType {
-        @SerializedName("Text")
+        @SerializedName("text")
         TEXT,
-        @SerializedName("Date")
+        @SerializedName("date")
         DATE,
-        @SerializedName("Phone")
+        @SerializedName("email")
+        EMAIL,
+        @SerializedName("phone")
         PHONE,
-        @SerializedName("TextArea")
+        @SerializedName("textarea")
         TEXTAREA,
-        @SerializedName("Radio")
+        @SerializedName("radio")
         RADIO,
         @SerializedName("Checkbox")
         CHECKBOX,
