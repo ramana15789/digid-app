@@ -57,6 +57,7 @@ public class HttpConstants {
     public static interface RequestId {
         public static final int GET_MY_ADVISORS = 100;
         public static final int GET_FORM_DETAILS = 101;
+        public static final int POST_FORM_DETAILS = 102;
     }
 
 }

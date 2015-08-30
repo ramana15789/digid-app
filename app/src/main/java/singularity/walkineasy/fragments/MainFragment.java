@@ -50,7 +50,7 @@ public class MainFragment extends AbstractFragment implements RetroCallback.Retr
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, v);
-        init(container, savedInstanceState, v, "DigId");
+        init(container, savedInstanceState, v, "__digId__");
         setHasOptionsMenu(true);
         mApiEndPoints = getApiService();
         return v;

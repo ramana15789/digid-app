@@ -7,12 +7,13 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import singularity.walkineasy.http.HttpConstants.RequestId;
 import singularity.walkineasy.http.models.GetFormResponse;
+import singularity.walkineasy.http.models.PostFormResponse;
 
 /**
  * @author Sharath Pandeshwar
  * @since 29/08/15.
  */
-public class RetroCallback<ConvertedData> implements RetroCallbackInterface<ConvertedData>{
+public class RetroCallback<ConvertedData> implements RetroCallbackInterface<ConvertedData> {
 
 
     public static final String TAG = "RetroCallback";
@@ -79,6 +80,10 @@ public class RetroCallback<ConvertedData> implements RetroCallbackInterface<Conv
 
             case RequestId.GET_FORM_DETAILS:
                 mRetroResponseListener.success((GetFormResponse) model, mRequestId);
+                break;
+
+            case RequestId.POST_FORM_DETAILS:
+                mRetroResponseListener.success((PostFormResponse) model, mRequestId);
                 break;
 
 

@@ -1,5 +1,7 @@
 package singularity.walkineasy;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,6 +12,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.provider.Settings.Secure;
 import android.support.v4.app.NotificationCompat;
+import android.telephony.TelephonyManager;
+import android.util.Patterns;
 
 import com.squareup.otto.Bus;
 import com.tumblr.remember.Remember;
@@ -20,6 +24,8 @@ import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
+
+import java.util.regex.Pattern;
 
 import retrofit.RestAdapter;
 import singularity.walkineasy.activities.ShowFormsActivity;
@@ -65,7 +71,7 @@ public class MyApplication extends Application implements BootstrapNotifier {
     public void onCreate() {
         super.onCreate();
 
-        /*BeaconManager beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
+       /* BeaconManager beaconManager = org.altbeacon.beacon.BeaconManager.getInstanceForApplication(this);
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"));
         beaconManager.setBackgroundBetweenScanPeriod(5000);
 
@@ -76,6 +82,19 @@ public class MyApplication extends Application implements BootstrapNotifier {
         sStaticContext = getApplicationContext();
         initApiServices();
         Remember.init(getApplicationContext(), "singularity.walkineasy");
+
+
+        Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+        Account[] accounts = AccountManager.get(this).getAccounts();
+        for (Account account : accounts) {
+            if (emailPattern.matcher(account.name).matches()) {
+                String possibleEmail = account.name;
+                if (!Remember.containsKey("email_id")) {
+                    Remember.putString("email_id", possibleEmail);
+                }
+            }
+        }
+
     }
 
 

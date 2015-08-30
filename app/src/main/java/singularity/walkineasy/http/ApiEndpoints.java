@@ -8,6 +8,7 @@ import retrofit.http.Path;
 import retrofit.http.Query;
 import singularity.walkineasy.http.models.GetFormResponse;
 import singularity.walkineasy.http.models.PostFormRequest;
+import singularity.walkineasy.http.models.PostFormResponse;
 
 /**
  * @author Sharath Pandeshwar
@@ -18,6 +19,6 @@ public interface ApiEndpoints {
     @GET("/form")
     void getFormDetails(@Query("id") String id, Callback<GetFormResponse> cb);
 
-    @POST("/forms/{id}")
-    void postFormDetails(@Path("id") String id, @Body PostFormRequest form, Callback<GetFormResponse> cb);
+    @POST("/response")
+    void postFormDetails(@Body PostFormRequest form, Callback<PostFormResponse> cb);
 }

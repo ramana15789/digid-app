@@ -61,6 +61,7 @@ public class ShowFormsActivity extends AbstractActivity implements RetroCallback
     private ArrayList<FormWidget> mDynamicWidgets = new ArrayList<>();
 
     String mFormId = "";
+    String mFormResponseSuccessMessage = "Thank You. You may now walk inside";
 
     // *********************************************************************
     // Life Cycle
@@ -84,7 +85,7 @@ public class ShowFormsActivity extends AbstractActivity implements RetroCallback
             Toast.makeText(this, "Did not get form id", Toast.LENGTH_SHORT).show();
         }
     }
-    
+
 
     @Override
     public void onPause() {
@@ -145,33 +146,47 @@ public class ShowFormsActivity extends AbstractActivity implements RetroCallback
 
 
     private void formJSONAndSendToServer() {
-        PostFormRequest request = new PostFormRequest();
+        PostFormRequest request = new PostFormRequest(mFormId);
         for (FormWidget widget : mDynamicWidgets) {
             widget.addValue(request.formInputs);
         }
+
+        RetroCallback retroCallback;
+        retroCallback = new RetroCallback(this);
+        retroCallback.setRequestId(HttpConstants.RequestId.POST_FORM_DETAILS);
+        retroCallbackList.add(retroCallback);
+        mApiEndPoints.postFormDetails(request, retroCallback);
     }
 
 
     @Override
     public void success(Object model, int requestId) {
 
-        Logger.i(TAG, "Back to success handler after fetching form information.");
-        mDynamicWidgets.clear();
+        if (requestId == HttpConstants.RequestId.GET_FORM_DETAILS) {
+            Logger.i(TAG, "Back to success handler after fetching form information.");
+            mDynamicWidgets.clear();
 
-        mFormResponse = (GetFormResponse) model;
-        if (mFormResponse == null) {
-            mLoadingText.setText("Failed to load the form");
-            mLoadingFormDotsTextView.stop();
-            return;
-        }
-        mLoadingBlock.setVisibility(View.GONE);
-        mFormTitleTextView.setText(mFormResponse.title);
-        for (FormDetails detail : mFormResponse.formElements) {
-            FormWidget widget = LayoutFactory.getView(detail, this, getSupportFragmentManager());
-            if (widget != null) {
-                mContainerBlock.addView((View) widget);
-                mDynamicWidgets.add(widget);
+            mFormResponse = (GetFormResponse) model;
+
+            if (mFormResponse == null) {
+                mLoadingText.setText("Failed to load the form");
+                mLoadingFormDotsTextView.stop();
+                return;
             }
+            mLoadingBlock.setVisibility(View.GONE);
+            mFormTitleTextView.setText(mFormResponse.title);
+            mFormResponseSuccessMessage = mFormResponse.successMessage;
+            for (FormDetails detail : mFormResponse.formElements) {
+                FormWidget widget = LayoutFactory.getView(detail, this, getSupportFragmentManager());
+                if (widget != null) {
+                    mContainerBlock.addView((View) widget);
+                    mDynamicWidgets.add(widget);
+                }
+            }
+        }
+
+        if (requestId == HttpConstants.RequestId.POST_FORM_DETAILS) {
+            Toast.makeText(this, "Thank You. You may now walk inside", Toast.LENGTH_SHORT).show();
         }
     }
 

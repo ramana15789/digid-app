@@ -16,6 +16,9 @@ public class GetFormResponse {
     @SerializedName("id")
     public String tableTitle;
 
+    @SerializedName("success_message")
+    public String successMessage;
+
     @SerializedName("fields")
     public ArrayList<FormDetails> formElements;
 }
